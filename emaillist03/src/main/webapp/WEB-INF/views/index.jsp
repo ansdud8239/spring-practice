@@ -24,7 +24,7 @@
 			</tr>
 			<tr>
 				<td align=right>이메일: </td>
-				<td>${vo.email }<</td>
+				<td>${vo.email }</td>
 			</tr>
 		</table>
 		<br>
