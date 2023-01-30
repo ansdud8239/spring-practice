@@ -6,7 +6,6 @@
 	<packaging>pom</packaging>
 	<modules>
 		<module>hellospring</module>
-		<module>com.douzone</module>
 		<module>emaillist03</module>
 		<module>guestbook03</module>
 	</modules>
