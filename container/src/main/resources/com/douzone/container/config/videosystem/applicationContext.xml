@@ -3,6 +3,9 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
@@ -15,5 +18,126 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
 	<!-- 01 빈 설정 : 초간단 -->
-	<bean class="com.douzone.container.videosystem.Avengers"/>
+	<bean class="com.douzone.container.videosystem.Avengers" />
+
+	<!-- 02 빈 설정 : id 부여하기 -->
+	<bean id="ironMan"
+		class="com.douzone.container.videosystem.IronMan" />
+
+	<!-- 03 빈 설정 : 생성자 리터럴 사용1 -->
+	<bean id="avengerInfinityWar"
+		class="com.douzone.container.videosystem.BlankDisc">
+		<constructor-arg name="title"
+			value="Avenger Infinity War" />
+		<constructor-arg name="studio" value="MARVEL" />
+	</bean>
+
+	<!-- 04 빈 설정 : 생성자 리터럴 사용2 -->
+	<bean id="avengerEndgame"
+		class="com.douzone.container.videosystem.BlankDisc"
+		c:title="Avenger Endgame" c:studio="MARVEL" />
+
+	<!-- 05 빈 설정 : 생성자 리터럴 사용3 -->
+	<bean id="avengerAgeofUltron"
+		class="com.douzone.container.videosystem.BlankDisc" c:_1="MARVEL"
+		c:_0="Avenger Age of Ultron" />
+
+	<!-- 06 빈 설정 : 생성자 null argument -->
+	<bean id="avengerCaptainAmerica"
+		class="com.douzone.container.videosystem.BlankDisc">
+		<constructor-arg name="title"
+			value="Avenger Captain America" />
+		<constructor-arg name="studio" value="MARVEL" />
+		<constructor-arg name="actors">
+			<null />
+		</constructor-arg>
+	</bean>
+
+	<!-- 07 빈 설정 : 생성자 Collection argument -->
+	<bean id="avengerDirectorEdition"
+		class="com.douzone.container.videosystem.BlankDisc">
+		<constructor-arg name="title"
+			value="Avenger Director Edition" />
+		<constructor-arg name="studio" value="MARVEL" />
+		<constructor-arg name="actors">
+			<list>
+				<value>Robert Downey Jt.</value>
+				<value>Chris Evans</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- 08 빈 설정 : 생성자 Wiring Collection -->
+	<bean id="avengerTriplePack"
+		class="com.douzone.container.videosystem.DVDPack"
+		c:title="Avenger Triple Pack">
+		<constructor-arg name="dvds">
+			<list>
+				<ref bean="avengerDirectorEdition" />
+				<ref bean="avengerAgeofUltron" />
+				<ref bean="avengerInfinityWar" />
+			</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- 09 빈 설정 : 프로퍼티 사용 1 -->
+	<bean id="avengerExpansionEdition1"
+		class="com.douzone.container.videosystem.BlankDisc">
+		<property name="title" value="Avenger Expansion Edition1" />
+		<property name="studio" value="MARVEL" />
+	</bean>
+
+	<!-- 10 빈 설정 : 프로퍼티 사용 2 -->
+	<bean id="avengerExpansionEdition2"
+		class="com.douzone.container.videosystem.BlankDisc"
+		p:title="Avenger Expansion Edition2" p:studio="MARVEL">
+		<property name="actors">
+			<list>
+				<value>Robert Downey Jt.</value>
+				<value>Chris Evans</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 11 빈 설정 : 프로퍼티 사용 3 -->
+	<util:list id="actorList">
+		<value>Robert Downey Jt.</value>
+		<value>Chris Evans</value>
+	</util:list>
+	<bean id="avengerExpansionEdition3"
+		class="com.douzone.container.videosystem.BlankDisc"
+		p:title="Avenger Expansion Edition2" p:studio="MARVEL"
+		p:actors-ref="actorList">
+	</bean>
+
+	<!-- 12 빈 주입 : 생성자 주입1 -->
+	<bean id="dvdPlayer1"
+		class="com.douzone.container.videosystem.DVDPlayer">
+		<constructor-arg ref="ironMan" />
+	</bean>
+	<!-- 13 빈 주입 : 생성자 주입2:c-namespace의 argument name을 사용하는 방법,spring 3.x부터 사용가능-->
+	<bean id="dvdPlayer2"
+		class="com.douzone.container.videosystem.DVDPlayer"
+		c:dvd-ref="ironMan" >
+	</bean>
+	<!-- 14 빈 주입 : 생성자 주입3:c-namespace의 argument name을 사용하는 방법,spring 3.x부터 사용가능-->
+	<bean id="dvdPlayer3"
+		class="com.douzone.container.videosystem.DVDPlayer"
+		c:_0-ref="ironMan" >
+	</bean>
+
+	<!-- 15 빈 주입 : 프로퍼티 주입1 -->
+	<bean id="dvdPlayer4"
+		class="com.douzone.container.videosystem.DVDPlayer">
+		<property name="dvd" ref="ironMan" />
+	</bean>
+
+	<!-- 16 빈 주입 :  프로퍼티 주입2:p-namespace-->
+	<bean id="dvdPlayer5"
+		class="com.douzone.container.videosystem.DVDPlayer"
+		p:dvd-ref="ironMan" >
+	</bean>
+
+	<!-- 17 빈 주입 : -->
+
 </beans>
